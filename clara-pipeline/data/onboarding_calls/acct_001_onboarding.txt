@@ -1,0 +1,11 @@
+Account: acct_001
+
+AGENT: Hi again! Tell me what's changing with Apex Heating and Air.
+CLIENT: Hey! We have a few updates. First, our number for John Smith changed to 214-555-0102.
+AGENT: Updated. What else?
+CLIENT: We have a new service line: generator repair. We're also expanding emergencies: now we add refrigerant leak as an emergency.
+AGENT: Great. Did your address or hours change?
+CLIENT: Yes, our new address is 456 Warm Sun Blvd, Dallas, TX 75202. Also for our hours, we extend to 7 PM on Friday.
+AGENT: Got it. Any software updates?
+CLIENT: Yes, we switched from ServiceTitan to FieldEdge. Same rule applies: do not create jobs in FieldEdge directly.
+AGENT: And I'll note your new routing rule: commercial clients route differently now after hours. I've got this all logged!

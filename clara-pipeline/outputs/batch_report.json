@@ -1,0 +1,110 @@
+{
+  "started_at": "2026-03-04T16:40:46.625392Z",
+  "pipeline_a": [
+    {
+      "status": "success",
+      "account_id": "acct_001",
+      "company_name": "acct_001",
+      "memo_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_001\\v1\\memo.json",
+      "agent_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_001\\v1\\agent_spec.json",
+      "task_id": "TASK-0001"
+    },
+    {
+      "status": "success",
+      "account_id": "acct_002",
+      "company_name": "acct_002",
+      "memo_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_002\\v1\\memo.json",
+      "agent_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_002\\v1\\agent_spec.json",
+      "task_id": "TASK-0002"
+    },
+    {
+      "status": "success",
+      "account_id": "acct_003",
+      "company_name": "acct_003",
+      "memo_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_003\\v1\\memo.json",
+      "agent_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_003\\v1\\agent_spec.json",
+      "task_id": "TASK-0003"
+    },
+    {
+      "status": "success",
+      "account_id": "acct_004",
+      "company_name": "acct_004",
+      "memo_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_004\\v1\\memo.json",
+      "agent_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_004\\v1\\agent_spec.json",
+      "task_id": "TASK-0004"
+    },
+    {
+      "status": "success",
+      "account_id": "acct_005",
+      "company_name": "acct_005",
+      "memo_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_005\\v1\\memo.json",
+      "agent_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_005\\v1\\agent_spec.json",
+      "task_id": "TASK-0005"
+    }
+  ],
+  "pipeline_b": [
+    {
+      "status": "success",
+      "account_id": "acct_001",
+      "company_name": "acct_001",
+      "memo_v2_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_001\\v2\\memo.json",
+      "agent_v2_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_001\\v2\\agent_spec.json",
+      "changes_json": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_001\\v2\\changes.json",
+      "changes_md": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_001\\v2\\changes.md",
+      "total_changes": 5
+    },
+    {
+      "status": "success",
+      "account_id": "acct_002",
+      "company_name": "acct_002",
+      "memo_v2_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_002\\v2\\memo.json",
+      "agent_v2_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_002\\v2\\agent_spec.json",
+      "changes_json": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_002\\v2\\changes.json",
+      "changes_md": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_002\\v2\\changes.md",
+      "total_changes": 5
+    },
+    {
+      "status": "success",
+      "account_id": "acct_003",
+      "company_name": "acct_003",
+      "memo_v2_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_003\\v2\\memo.json",
+      "agent_v2_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_003\\v2\\agent_spec.json",
+      "changes_json": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_003\\v2\\changes.json",
+      "changes_md": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_003\\v2\\changes.md",
+      "total_changes": 5
+    },
+    {
+      "status": "success",
+      "account_id": "acct_004",
+      "company_name": "acct_004",
+      "memo_v2_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_004\\v2\\memo.json",
+      "agent_v2_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_004\\v2\\agent_spec.json",
+      "changes_json": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_004\\v2\\changes.json",
+      "changes_md": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_004\\v2\\changes.md",
+      "total_changes": 6
+    },
+    {
+      "status": "success",
+      "account_id": "acct_005",
+      "company_name": "acct_005",
+      "memo_v2_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_005\\v2\\memo.json",
+      "agent_v2_path": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_005\\v2\\agent_spec.json",
+      "changes_json": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_005\\v2\\changes.json",
+      "changes_md": "C:\\Users\\Yuvraj Singh\\Downloads\\files\\clara-pipeline\\outputs\\accounts\\acct_005\\v2\\changes.md",
+      "total_changes": 6
+    }
+  ],
+  "summary": {
+    "pipeline_a": {
+      "success": 5,
+      "skipped": 0,
+      "failed": 0
+    },
+    "pipeline_b": {
+      "success": 5,
+      "skipped": 0,
+      "failed": 0
+    }
+  },
+  "finished_at": "2026-03-04T16:40:52.292208Z"
+}

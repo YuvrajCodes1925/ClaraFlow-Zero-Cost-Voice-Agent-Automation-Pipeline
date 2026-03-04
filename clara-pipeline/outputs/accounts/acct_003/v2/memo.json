@@ -1,0 +1,58 @@
+{
+  "company_name": "acct_003",
+  "business_hours": {
+    "days": "Monday-Friday",
+    "start": "6 AM",
+    "end": "4 PM",
+    "timezone": "Pacific Time (PT)",
+    "saturday": null,
+    "sunday": "Closed"
+  },
+  "office_address": "222 Spark Ave, Seattle, WA 98101.",
+  "services_supported": [
+    "Electrical",
+    "Maintenance",
+    "Installation",
+    "Repair",
+    "Panel",
+    "Ev Charger"
+  ],
+  "emergency_definition": [
+    "Power Outage",
+    "Electrical Fire"
+  ],
+  "emergency_routing_rules": {
+    "contacts": [
+      {
+        "name": "Contact 1",
+        "phone": "206-555-0302",
+        "order": 1
+      },
+      {
+        "name": "Walter White",
+        "phone": "206-555-0300",
+        "order": 2
+      }
+    ],
+    "ring_timeout_seconds": 30,
+    "fallback_action": "Leave voicemail and inform caller of callback timeframe"
+  },
+  "non_emergency_routing_rules": "Take name and phone number; follow up next business day",
+  "call_transfer_rules": {
+    "office_hours_transfer_to": "800-555-1000",
+    "ring_timeout": "4 rings",
+    "if_no_answer": "Take message with name and callback number"
+  },
+  "integration_constraints": [
+    "Do not create jobs/tickets in Jobber"
+  ],
+  "after_hours_flow_summary": "Greet caller, determine if emergency, collect name/phone, attempt transfer or take message",
+  "office_hours_flow_summary": "Greet caller, collect name and purpose, transfer to office line",
+  "questions_or_unknowns": [],
+  "notes": "Extracted via rule-based parser \u2014 verify with client",
+  "account_id": "acct_003",
+  "version": "v2",
+  "created_at": "2026-03-04T16:40:47.848852Z",
+  "updated_at": "2026-03-04T16:40:50.638311Z",
+  "source_type": "onboarding_call"
+}

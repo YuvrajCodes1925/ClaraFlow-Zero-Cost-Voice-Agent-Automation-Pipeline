@@ -1,0 +1,25 @@
+Account: acct_003
+
+AGENT: Hello, thanks for taking the time to set up your account. I'm ready to capture your business details.
+CLIENT: Sure. We're Volt Master Electrical, we do electrical. 
+AGENT: Great. What are your core services?
+CLIENT: We mainly do panel upgrades, ev charger installation, and wiring repair.
+AGENT: Got it. What's the main office address?
+CLIENT: It's 222 Spark Ave, Seattle, WA 98101.
+AGENT: And your regular operating hours?
+CLIENT: We are open Monday through Friday, from 6 AM to 4 PM. We are in Pacific Time.
+AGENT: Perfect. If someone calls during those hours, how should Clara handle it?
+CLIENT: Just greet them, ask what they need, and say "Let me connect you right now" to transfer to our office line at 800-555-1000. Give it about 4 rings. If nobody answers, take a message with their name and callback number.
+AGENT: Sounds good. What about after hours? How do we determine an emergency?
+CLIENT: An emergency is if there's power outage, electrical fire smell, or sparking panel. 
+AGENT: Understood. If it's an emergency, what's the routing sequence?
+CLIENT: First call Walter White at 206-555-0300. Give them 30 seconds to answer. If they don't, try Jesse Pinkman at 206-555-0301.
+AGENT: What if neither answers?
+CLIENT: Leave a voicemail telling the customer we'll call back within 30 minutes. Also remind them to call 911 if it's life-threatening.
+AGENT: Got it. And for non-emergencies after hours?
+CLIENT: Just take their name and phone number and follow up next business day. Tell them we'll call by 9 AM.
+AGENT: What software do you use for scheduling?
+CLIENT: We use Housecall Pro, but we have a strict rule: Do not create jobs or tickets in Housecall Pro directly. Just send us the info.
+AGENT: Any particular tone or routing restrictions?
+CLIENT: Please remain warm and calm. Also, never dispatch for maintenance renewals after hours.
+AGENT: Thank you! All set.

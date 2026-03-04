@@ -1,0 +1,115 @@
+{
+  "account_id": "acct_001",
+  "company_name": "acct_001",
+  "changelog_date": "2026-03-04T16:40:49.534621Z",
+  "from_version": "v1",
+  "to_version": "v2",
+  "summary": {
+    "total_changes": 5,
+    "added": 0,
+    "updated": 5,
+    "removed": 0
+  },
+  "changes": [
+    {
+      "field": "emergency_routing_rules.contacts[0].phone",
+      "action": "update",
+      "old_value": "800-555-1000",
+      "new_value": "214-555-0102",
+      "reason": "New on-call number provided in onboarding"
+    },
+    {
+      "field": "integration_constraints",
+      "action": "update",
+      "old_value": [
+        "Do not create jobs/tickets in ServiceTitan"
+      ],
+      "new_value": [
+        "Do not create jobs/tickets in FieldEdge"
+      ],
+      "reason": "Software switched from ServiceTitan to FieldEdge"
+    },
+    {
+      "field": "emergency_routing_rules.contacts",
+      "action": "add",
+      "old_value": null,
+      "new_value": {
+        "name": "Contact 1",
+        "order": 1,
+        "phone": "214-555-0102"
+      },
+      "reason": "Item added to list"
+    },
+    {
+      "field": "emergency_routing_rules.contacts",
+      "action": "remove",
+      "old_value": {
+        "name": "Contact 1",
+        "order": 1,
+        "phone": "800-555-1000"
+      },
+      "new_value": null,
+      "reason": "Item removed from list"
+    },
+    {
+      "field": "source_type",
+      "action": "update",
+      "old_value": "demo_call",
+      "new_value": "onboarding_call",
+      "reason": "Value changed"
+    }
+  ],
+  "categorized": {
+    "added": [],
+    "updated": [
+      {
+        "field": "emergency_routing_rules.contacts[0].phone",
+        "action": "update",
+        "old_value": "800-555-1000",
+        "new_value": "214-555-0102",
+        "reason": "New on-call number provided in onboarding"
+      },
+      {
+        "field": "integration_constraints",
+        "action": "update",
+        "old_value": [
+          "Do not create jobs/tickets in ServiceTitan"
+        ],
+        "new_value": [
+          "Do not create jobs/tickets in FieldEdge"
+        ],
+        "reason": "Software switched from ServiceTitan to FieldEdge"
+      },
+      {
+        "field": "emergency_routing_rules.contacts",
+        "action": "add",
+        "old_value": null,
+        "new_value": {
+          "name": "Contact 1",
+          "order": 1,
+          "phone": "214-555-0102"
+        },
+        "reason": "Item added to list"
+      },
+      {
+        "field": "emergency_routing_rules.contacts",
+        "action": "remove",
+        "old_value": {
+          "name": "Contact 1",
+          "order": 1,
+          "phone": "800-555-1000"
+        },
+        "new_value": null,
+        "reason": "Item removed from list"
+      },
+      {
+        "field": "source_type",
+        "action": "update",
+        "old_value": "demo_call",
+        "new_value": "onboarding_call",
+        "reason": "Value changed"
+      }
+    ],
+    "removed": []
+  }
+}

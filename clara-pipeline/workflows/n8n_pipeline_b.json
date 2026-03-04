@@ -1,0 +1,101 @@
+{
+  "name": "Clara Pipeline B — Onboarding to Agent v2",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "pipeline-b",
+        "httpMethod": "POST",
+        "responseMode": "responseNode"
+      },
+      "id": "webhook-b",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "notes": "Receives POST: {account_id, transcript_text}"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body || $input.first().json;\nif (!body.account_id) throw new Error('account_id required');\nreturn [{ json: {\n  account_id: body.account_id,\n  transcript: body.transcript_text || '',\n  file_path: body.file_path || null\n}}];"
+      },
+      "id": "normalize-b",
+      "name": "Normalize Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "command": "=cat /output/accounts/{{$json.account_id}}/v1/memo.json"
+      },
+      "id": "load-v1-memo",
+      "name": "Load V1 Memo",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [680, 300],
+      "notes": "Reads existing v1 memo from disk"
+    },
+    {
+      "parameters": {
+        "jsCode": "const prev = $('Normalize Input').first().json;\nconst memoJson = $input.first().json.stdout;\nlet v1Memo;\ntry { v1Memo = JSON.parse(memoJson); }\ncatch(e) { throw new Error(`Failed to parse v1 memo: ${e.message}`); }\nreturn [{ json: { account_id: prev.account_id, transcript: prev.transcript, v1_memo: v1Memo } }];"
+      },
+      "id": "parse-v1",
+      "name": "Parse V1 Memo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Rule-based patch extraction\nconst { account_id, transcript, v1_memo } = $json;\nconst changes = [];\n\n// Deep copy v1 to start v2\nconst v2 = JSON.parse(JSON.stringify(v1_memo));\n\n// 1. New phone number\nconst newPhoneMatch = transcript.match(/(?:new number is|changed to|updated to)\\s+(\\d{3}[-.]\\d{3}[-.]\\d{4})/i);\nif (newPhoneMatch) {\n  const phone = newPhoneMatch[1];\n  const oldPhone = v2.emergency_routing_rules?.contacts?.[0]?.phone;\n  if (oldPhone !== phone) {\n    if (v2.emergency_routing_rules?.contacts?.[0]) {\n      v2.emergency_routing_rules.contacts[0].phone = phone;\n    }\n    changes.push({ field: 'emergency_routing_rules.contacts[0].phone',\n      action: 'update', old_value: oldPhone, new_value: phone,\n      reason: 'New on-call number per onboarding' });\n  }\n}\n\n// 2. New services\nconst svcMatches = [...transcript.matchAll(/(?:added|new service(?: line)?|now (?:also )?doing|new service:)\\s+([^\\.\\n,]+)/gi)];\nfor (const m of svcMatches) {\n  const svc = m[2].trim().replace(/\\b\\w/g, c=>c.toUpperCase());\n  if (svc && !v2.services_supported.some(s => s.toLowerCase() === svc.toLowerCase())) {\n    v2.services_supported.push(svc);\n    changes.push({ field: 'services_supported', action: 'add',\n      old_value: null, new_value: svc, reason: 'New service added in onboarding' });\n  }\n}\n\n// 3. Address change\nconst addrMatch = transcript.match(/(?:new address|moved|address is now)[:\\s]+([\\d][^\\n]+(?:Seattle|Austin|Phoenix|Denver|Houston|Suite|Ave|Street|Road|Blvd)[^\\n]*)/i);\nif (addrMatch) {\n  const newAddr = addrMatch[1].trim();\n  if (newAddr !== v2.office_address) {\n    changes.push({ field: 'office_address', action: 'update',\n      old_value: v2.office_address, new_value: newAddr, reason: 'Office address changed' });\n    v2.office_address = newAddr;\n  }\n}\n\n// 4. New contacts\nconst contactMatches = [...transcript.matchAll(/([A-Z][a-z]+\\s+[A-Z][a-z]+)(?:[,\\s]+at)?\\s+(\\d{3}[-.]\\d{3}[-.]\\d{4})/g)];\nconst existingPhones = new Set((v2.emergency_routing_rules?.contacts||[]).map(c=>c.phone));\nfor (const [, name, phone] of contactMatches) {\n  if (!existingPhones.has(phone)) {\n    const order = (v2.emergency_routing_rules?.contacts?.length || 0) + 1;\n    v2.emergency_routing_rules = v2.emergency_routing_rules || {contacts:[]};\n    v2.emergency_routing_rules.contacts = v2.emergency_routing_rules.contacts || [];\n    v2.emergency_routing_rules.contacts.push({ name, phone, order });\n    existingPhones.add(phone);\n    changes.push({ field: `emergency_routing_rules.contacts[${order-1}]`,\n      action: 'add', old_value: null, new_value: {name,phone,order},\n      reason: 'New emergency contact added' });\n  }\n}\n\n// 5. Saturday removal\nif (/saturday.*(?:remov|no longer|not working|closed)/i.test(transcript)) {\n  const old = v2.business_hours?.saturday;\n  if (old) {\n    v2.business_hours.saturday = null;\n    changes.push({ field: 'business_hours.saturday', action: 'remove',\n      old_value: old, new_value: null, reason: 'Saturday hours removed' });\n  }\n}\n\nv2.version = 'v2';\nv2.updated_at = new Date().toISOString();\nv2.source_type = 'onboarding_call';\n\nreturn [{ json: { account_id, v1_memo, v2_memo: v2, changes } }];"
+      },
+      "id": "patch-memo",
+      "name": "Apply Onboarding Patch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate changelog JSON + markdown\nconst { account_id, v1_memo, v2_memo, changes } = $json;\nconst date = new Date().toISOString().slice(0,10);\nconst total = changes.length;\nconst added   = changes.filter(c=>c.action==='add').length;\nconst updated = changes.filter(c=>c.action==='update').length;\nconst removed = changes.filter(c=>c.action==='remove').length;\n\nconst changelog = {\n  account_id, company_name: v2_memo.company_name,\n  changelog_date: new Date().toISOString(),\n  from_version: 'v1', to_version: 'v2',\n  summary: { total_changes: total, added, updated, removed },\n  changes,\n  categorized: {\n    added:   changes.filter(c=>c.action==='add'),\n    updated: changes.filter(c=>c.action==='update'),\n    removed: changes.filter(c=>c.action==='remove')\n  }\n};\n\nlet md = `# Changelog: ${v2_memo.company_name} (${account_id})\\n`;\nmd += `**Date:** ${date}  |  **v1 → v2**\\n`;\nmd += `**${total} change(s):** ${added} added, ${updated} updated, ${removed} removed\\n\\n---\\n\\n`;\nfor (const c of changes) {\n  const icon = c.action==='add' ? '✅' : c.action==='remove' ? '❌' : '🔄';\n  md += `${icon} **${c.field}** (${c.action})\\n  _${c.reason}_\\n\\n`;\n}\n\nreturn [{ json: { account_id, v1_memo, v2_memo, changes, changelog, changelog_md: md } }];"
+      },
+      "id": "generate-changelog",
+      "name": "Generate Changelog",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1340, 300]
+    },
+    {
+      "parameters": {
+        "command": "=mkdir -p /output/accounts/{{$json.account_id}}/v2 && echo '{{JSON.stringify($json.v2_memo)}}' > /output/accounts/{{$json.account_id}}/v2/memo.json && echo '{{JSON.stringify($json.changelog)}}' > /output/accounts/{{$json.account_id}}/v2/changes.json && printf '%s' '{{$json.changelog_md}}' > /output/accounts/{{$json.account_id}}/v2/changes.md && echo 'saved'"
+      },
+      "id": "save-v2",
+      "name": "Save V2 Outputs",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [1560, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"status\": \"success\", \"account_id\": \"{{$json.account_id}}\", \"total_changes\": {{$json.changes.length}}}"
+      },
+      "id": "respond-b",
+      "name": "Webhook Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1780, 300]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": { "main": [[{ "node": "Normalize Input",   "type": "main", "index": 0 }]] },
+    "Normalize Input": { "main": [[{ "node": "Load V1 Memo",      "type": "main", "index": 0 }]] },
+    "Load V1 Memo":    { "main": [[{ "node": "Parse V1 Memo",     "type": "main", "index": 0 }]] },
+    "Parse V1 Memo":   { "main": [[{ "node": "Apply Onboarding Patch", "type": "main", "index": 0 }]] },
+    "Apply Onboarding Patch": { "main": [[{ "node": "Generate Changelog", "type": "main", "index": 0 }]] },
+    "Generate Changelog": { "main": [[{ "node": "Save V2 Outputs", "type": "main", "index": 0 }]] },
+    "Save V2 Outputs": { "main": [[{ "node": "Webhook Response",  "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "meta": { "description": "Clara Pipeline B — Onboarding → V2 Agent Update + Changelog" }
+}

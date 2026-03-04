@@ -1,0 +1,140 @@
+{
+  "name": "Clara Pipeline A — Demo Call to Agent v1",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "pipeline-a",
+        "httpMethod": "POST",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "notes": "Receives POST with: {account_id, transcript_text} or {account_id, file_path}"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Normalize input — accept text or file path\nconst body = $input.first().json.body || $input.first().json;\nconst accountId = body.account_id || `acct_${Date.now().toString(36)}`;\nconst transcript = body.transcript_text || '';\n\nif (!transcript && !body.file_path) {\n  throw new Error('Must provide transcript_text or file_path');\n}\n\nreturn [{\n  json: {\n    account_id: accountId,\n    transcript: transcript,\n    file_path: body.file_path || null,\n    received_at: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "normalize-input",
+      "name": "Normalize Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.file_path}}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "check-file-vs-text",
+      "name": "File or Text?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "command": "=cat {{$json.file_path}}"
+      },
+      "id": "read-file",
+      "name": "Read File",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [900, 200],
+      "notes": "Reads transcript from disk if file_path provided"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Merge file content or use provided text\nconst prev = $('Normalize Input').first().json;\nconst fileContent = $input.first()?.json?.stdout || prev.transcript;\n\nreturn [{\n  json: {\n    account_id: prev.account_id,\n    transcript: fileContent,\n    received_at: prev.received_at\n  }\n}];"
+      },
+      "id": "merge-transcript",
+      "name": "Merge Transcript",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1100, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Rule-based extraction from transcript\n// (Ollama version: swap this node's code with Ollama HTTP call)\nconst transcript = $json.transcript;\nconst accountId  = $json.account_id;\n\nfunction extractField(pattern, text, flags='i') {\n  const m = text.match(new RegExp(pattern, flags));\n  return m ? m[1].trim() : null;\n}\n\nfunction extractPhones(text) {\n  return [...text.matchAll(/\\b(\\d{3}[-.]\\d{3}[-.]\\d{4})\\b/g)].map(m => m[1]);\n}\n\n// Company name from transcript header or dialog\nconst companyFromHeader = extractField('Account:\\\\s*(.+)', transcript);\nconst companyFromDialog = extractField(\"we(?:'re| are)\\\\s+([A-Z][^,\\\\.\\\\n]+(?:LLC|Inc|Services|Solutions|Co\\\\.|Plumbing|HVAC|Electrical|Refrigeration|Protection)?)\", transcript);\nconst companyName = companyFromHeader || companyFromDialog || accountId;\n\n// Timezone\nconst tzMap = {'central':'Central Time (CT)','mountain':'Mountain Time (MT)',\n               'pacific':'Pacific Time (PT)','eastern':'Eastern Time (ET)'};\nlet timezone = null;\nfor (const [k,v] of Object.entries(tzMap)) {\n  if (transcript.toLowerCase().includes(k)) { timezone = v; break; }\n}\n\n// Business hours\nconst timeMatches = [...transcript.matchAll(/(\\d{1,2}(?::\\d{2})?\\s*[AP]M)/g)].map(m=>m[1]);\nconst hasMF = /monday.{1,10}friday/i.test(transcript);\n\n// Address\nconst addrMatch = transcript.match(/\\d{3,5}\\s+[A-Z][^,\\n]+(?:Road|Street|Ave|Blvd|Way|Drive|Loop|South|East|West|North)[^\\n]*/i);\n\n// Phones\nconst phones = extractPhones(transcript);\n\n// Services (keyword scan)\nconst svcKeywords = ['hvac','heating','cooling','plumbing','drain','electrical',\n  'refrigeration','fire protection','sprinkler','generator','maintenance',\n  'installation','repair','water heater','ev charger','indoor air quality','water softener'];\nconst services = svcKeywords.filter(k => transcript.toLowerCase().includes(k))\n                             .map(k => k.replace(/\\b\\w/g,c=>c.toUpperCase()));\n\n// Emergency triggers (keyword scan)  \nconst emergencyKws = ['no heat','no ac','burst pipe','flooding','sewage backup',\n  'power outage','electrical fire','gas leak','refrigeration down','system down',\n  'discharge','sprinkler','temperature','freezer'];\nconst emergencies = emergencyKws.filter(k => transcript.toLowerCase().includes(k))\n                                 .map(k => k.replace(/\\b\\w/g,c=>c.toUpperCase()));\n\n// Contacts (names near phones)\nconst contacts = [];\nconst lines = transcript.split('\\n');\nfor (const line of lines) {\n  const phonesInLine = [...line.matchAll(/\\d{3}[-.]\\d{3}[-.]\\d{4}/g)].map(m=>m[0]);\n  if (phonesInLine.length) {\n    const nameMatch = line.match(/([A-Z][a-z]+\\s+[A-Z][a-z]+)/);\n    contacts.push({\n      name: nameMatch ? nameMatch[1] : `Contact ${contacts.length+1}`,\n      phone: phonesInLine[0],\n      order: contacts.length + 1\n    });\n  }\n}\n\n// Integration constraints\nconst tools = ['ServiceTitan','FieldEdge','ServiceTrade','Housecall Pro','Jobber'];\nconst constraints = tools.filter(t => transcript.toLowerCase().includes(t.toLowerCase()))\n                         .map(t => `Do not create jobs/tickets in ${t}`);\n\nconst memo = {\n  account_id: accountId,\n  company_name: companyName,\n  version: 'v1',\n  created_at: new Date().toISOString(),\n  updated_at: new Date().toISOString(),\n  source_type: 'demo_call',\n  business_hours: {\n    days: hasMF ? 'Monday-Friday' : null,\n    start: timeMatches[0] || null,\n    end:   timeMatches[1] || null,\n    timezone: timezone,\n    saturday: null,\n    sunday: 'Closed'\n  },\n  office_address: addrMatch ? addrMatch[0].trim() : null,\n  services_supported: [...new Set(services)],\n  emergency_definition: [...new Set(emergencies)],\n  emergency_routing_rules: {\n    contacts: contacts.slice(0,3),\n    ring_timeout_seconds: 30,\n    fallback_action: 'Leave voicemail; inform caller of 30-min callback'\n  },\n  non_emergency_routing_rules: 'Take name and phone; follow up next business day',\n  call_transfer_rules: {\n    office_hours_transfer_to: phones[0] || null,\n    ring_timeout: '4 rings',\n    if_no_answer: 'Take message with name and callback number'\n  },\n  integration_constraints: constraints,\n  after_hours_flow_summary: 'Greet, assess emergency, collect name/phone/address, transfer or message',\n  office_hours_flow_summary: 'Greet, collect name, transfer to office line',\n  questions_or_unknowns: [],\n  notes: 'Extracted via n8n rule-based parser'\n};\n\nreturn [{ json: { account_id: accountId, memo } }];"
+      },
+      "id": "extract-memo",
+      "name": "Extract Memo (Rule-Based)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1320, 300],
+      "notes": "Swap with Ollama HTTP Request node for LLM extraction"
+    },
+    {
+      "parameters": {
+        "jsCode": "const { account_id, memo } = $json;\nconst c = memo.company_name || account_id;\nconst bh = memo.business_hours || {};\nconst contacts = memo.emergency_routing_rules?.contacts || [];\nconst bhDesc = `${bh.days || 'Monday-Friday'} ${bh.start || '8 AM'}–${bh.end || '5 PM'}`;\nconst tz = bh.timezone || 'local time';\nconst emergList = (memo.emergency_definition || []).map(e => `- ${e}`).join('\\n') || '- Any immediate safety risk';\nconst svcList = (memo.services_supported || []).map(s => `- ${s}`).join('\\n') || '- General services';\nconst transferSeq = contacts.map(ct => `   Step ${ct.order}: Call ${ct.name} at ${ct.phone}`).join('\\n');\nconst primaryEmerg = contacts[0]?.phone || 'On-call TBD';\nconst step2 = contacts[1] ? `Call ${contacts[1].name} at ${contacts[1].phone}` : 'Try voicemail on primary';\nconst constraints = (memo.integration_constraints || []).map(c => `- ${c}`).join('\\n') || '- Follow standard protocols';\nconst officeTransfer = memo.call_transfer_rules?.office_hours_transfer_to || 'Main office line';\n\nconst systemPrompt = `You are Clara, a professional virtual receptionist for ${c}.\\nNever mention you are AI or automated. Never reference tools or function calls to callers.\\n\\nBUSINESS HOURS: ${bhDesc} ${tz}\\nOFFICE ADDRESS: ${memo.office_address || 'On file'}\\n\\nSERVICES:\\n${svcList}\\n\\n## BUSINESS HOURS CALL FLOW\\n1. GREET: \"Thank you for calling ${c}, this is Clara, how can I help you today?\"\\n2. Listen — do not interrupt.\\n3. Collect caller name and callback number.\\n4. Transfer to ${officeTransfer}.\\n5. TRANSFER FAILS: \"Our team is assisting other customers. I have your info and will ensure a prompt callback.\"\\n6. Confirm info. Ask \"Anything else?\" then close warmly.\\n\\n## AFTER-HOURS CALL FLOW\\n1. GREET: \"Thank you for calling ${c}, our office is closed but I'm here to help.\"\\n2. Ask reason for call.\\n3. EMERGENCIES:\\n${emergList}\\n4. IF EMERGENCY: Collect name, phone, address immediately.\\n${transferSeq}\\n   If all fail: \"Urgent message sent. Callback within 30 minutes. Call 911 if life-threatening.\"\\n5. IF NOT EMERGENCY: Collect name + phone. Follow up by 9 AM next business day.\\n\\n## STRICT RULES\\n${constraints}\\n- Never quote prices or give estimates.\\n- Only collect: name, phone, address (emergencies), brief issue.\\n- No more than 3 questions before routing.`;\n\nconst agentSpec = {\n  agent_name: `${c} - Clara Receptionist`,\n  account_id,\n  version: 'v1',\n  created_at: new Date().toISOString(),\n  voice_style: { provider: 'elevenlabs', voice_id: 'Rachel', speed: 1.0 },\n  llm_config: { model: 'gpt-4o', temperature: 0.3 },\n  system_prompt: systemPrompt,\n  key_variables: {\n    company_name: c, timezone: tz, business_hours: bhDesc,\n    office_address: memo.office_address, emergency_contacts: contacts,\n    office_transfer_line: officeTransfer\n  },\n  call_transfer_protocol: {\n    office_hours_primary: officeTransfer,\n    ring_timeout: memo.call_transfer_rules?.ring_timeout || '4 rings',\n    emergency_sequence: contacts\n  },\n  fallback_protocol: {\n    trigger: 'All transfers exhausted',\n    caller_message: `I wasn't able to reach our team directly but an urgent message has been sent. Someone will call you back within 30 minutes.`\n  }\n};\n\nreturn [{ json: { account_id, memo, agent_spec: agentSpec } }];"
+      },
+      "id": "build-agent-spec",
+      "name": "Build Agent Spec",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1540, 300]
+    },
+    {
+      "parameters": {
+        "command": "=mkdir -p /output/accounts/{{$json.account_id}}/v1 && echo '{{JSON.stringify($json.memo)}}' > /output/accounts/{{$json.account_id}}/v1/memo.json && echo '{{JSON.stringify($json.agent_spec)}}' > /output/accounts/{{$json.account_id}}/v1/agent_spec.json && echo 'saved'"
+      },
+      "id": "save-outputs",
+      "name": "Save to Disk",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [1760, 300],
+      "notes": "Saves memo.json and agent_spec.json to outputs/accounts/<id>/v1/"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Create task item in tasks.json\nconst { account_id, memo } = $json;\nconst task = {\n  task_id: `TASK-N8N-${Date.now().toString(36)}`,\n  account_id,\n  company_name: memo.company_name || account_id,\n  title: `[V1] Review agent config for ${memo.company_name || account_id}`,\n  status: 'pending_review',\n  created_at: new Date().toISOString(),\n  assignee: 'onboarding-team',\n  priority: 'high'\n};\n// In production: POST to Asana API, Linear, etc.\n// Here: append to tasks.json (handled by Save Tasks node)\nreturn [{ json: { account_id, company_name: memo.company_name, task } }];"
+      },
+      "id": "create-task",
+      "name": "Create Task Item",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1980, 300],
+      "notes": "Swap body with Asana API call when API key available"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"status\": \"success\", \"account_id\": \"{{$json.account_id}}\", \"company_name\": \"{{$json.company_name}}\", \"task_id\": \"{{$json.task.task_id}}\"}"
+      },
+      "id": "webhook-response",
+      "name": "Webhook Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [2200, 300]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger":       { "main": [[{ "node": "Normalize Input",     "type": "main", "index": 0 }]] },
+    "Normalize Input":       { "main": [[{ "node": "File or Text?",       "type": "main", "index": 0 }]] },
+    "File or Text?":         { "main": [
+      [{ "node": "Read File",          "type": "main", "index": 0 }],
+      [{ "node": "Merge Transcript",   "type": "main", "index": 0 }]
+    ]},
+    "Read File":             { "main": [[{ "node": "Merge Transcript",    "type": "main", "index": 0 }]] },
+    "Merge Transcript":      { "main": [[{ "node": "Extract Memo (Rule-Based)", "type": "main", "index": 0 }]] },
+    "Extract Memo (Rule-Based)": { "main": [[{ "node": "Build Agent Spec","type": "main", "index": 0 }]] },
+    "Build Agent Spec":      { "main": [[{ "node": "Save to Disk",        "type": "main", "index": 0 }]] },
+    "Save to Disk":          { "main": [[{ "node": "Create Task Item",    "type": "main", "index": 0 }]] },
+    "Create Task Item":      { "main": [[{ "node": "Webhook Response",    "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "meta": {
+    "description": "Clara Answers Pipeline A — Demo Call → V1 Agent Spec",
+    "version": "1.0.0"
+  }
+}

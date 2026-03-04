@@ -1,0 +1,11 @@
+Account: acct_003
+
+AGENT: Hi again! Tell me what's changing with Volt Master Electrical.
+CLIENT: Hey! We have a few updates. First, our number for Walter White changed to 206-555-0302.
+AGENT: Updated. What else?
+CLIENT: We have a new service line: general contracting. We're also expanding emergencies: now we add exposed live wires as an emergency.
+AGENT: Great. Did your address or hours change?
+CLIENT: Yes, no address change. Also for our hours, we open until 5 PM on Monday.
+AGENT: Got it. Any software updates?
+CLIENT: Yes, we switched from Housecall Pro to Jobber. Same rule applies: do not create jobs in Jobber directly.
+AGENT: And I'll note your new routing rule: commercial clients route differently now after hours. I've got this all logged!

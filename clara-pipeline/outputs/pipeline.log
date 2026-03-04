@@ -1,0 +1,80 @@
+[2026-03-04T16:40:46Z] [INFO] === Pipeline A START | account=acct_001 | file=C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\_tmp\acct_001_demo_temp.txt ===
+[2026-03-04T16:40:46Z] [INFO] Loaded transcript: 1874 chars
+[2026-03-04T16:40:46Z] [INFO] Memo extracted for: acct_001
+[2026-03-04T16:40:46Z] [INFO] Agent spec built: acct_001 - Clara Receptionist
+[2026-03-04T16:40:46Z] [INFO] Saved: C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\accounts\acct_001\v1\memo.json
+[2026-03-04T16:40:46Z] [INFO] Saved: C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\accounts\acct_001\v1\agent_spec.json
+[2026-03-04T16:40:46Z] [INFO] Task created: TASK-0001 for acct_001
+[2026-03-04T16:40:46Z] [INFO] === Pipeline A COMPLETE | account=acct_001 ===
+[2026-03-04T16:40:47Z] [INFO] === Pipeline A START | account=acct_002 | file=C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\_tmp\acct_002_demo_temp.txt ===
+[2026-03-04T16:40:47Z] [INFO] Loaded transcript: 1881 chars
+[2026-03-04T16:40:47Z] [INFO] Memo extracted for: acct_002
+[2026-03-04T16:40:47Z] [INFO] Agent spec built: acct_002 - Clara Receptionist
+[2026-03-04T16:40:47Z] [INFO] Saved: C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\accounts\acct_002\v1\memo.json
+[2026-03-04T16:40:47Z] [INFO] Saved: C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\accounts\acct_002\v1\agent_spec.json
+[2026-03-04T16:40:47Z] [INFO] Task created: TASK-0002 for acct_002
+[2026-03-04T16:40:47Z] [INFO] === Pipeline A COMPLETE | account=acct_002 ===
+[2026-03-04T16:40:47Z] [INFO] === Pipeline A START | account=acct_003 | file=C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\_tmp\acct_003_demo_temp.txt ===
+[2026-03-04T16:40:47Z] [INFO] Loaded transcript: 1904 chars
+[2026-03-04T16:40:47Z] [INFO] Memo extracted for: acct_003
+[2026-03-04T16:40:47Z] [INFO] Agent spec built: acct_003 - Clara Receptionist
+[2026-03-04T16:40:47Z] [INFO] Saved: C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\accounts\acct_003\v1\memo.json
+[2026-03-04T16:40:47Z] [INFO] Saved: C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\accounts\acct_003\v1\agent_spec.json
+[2026-03-04T16:40:47Z] [INFO] Task created: TASK-0003 for acct_003
+[2026-03-04T16:40:47Z] [INFO] === Pipeline A COMPLETE | account=acct_003 ===
+[2026-03-04T16:40:48Z] [INFO] === Pipeline A START | account=acct_004 | file=C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\_tmp\acct_004_demo_temp.txt ===
+[2026-03-04T16:40:48Z] [INFO] Loaded transcript: 1985 chars
+[2026-03-04T16:40:48Z] [INFO] Memo extracted for: acct_004
+[2026-03-04T16:40:48Z] [INFO] Agent spec built: acct_004 - Clara Receptionist
+[2026-03-04T16:40:48Z] [INFO] Saved: C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\accounts\acct_004\v1\memo.json
+[2026-03-04T16:40:48Z] [INFO] Saved: C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\accounts\acct_004\v1\agent_spec.json
+[2026-03-04T16:40:48Z] [INFO] Task created: TASK-0004 for acct_004
+[2026-03-04T16:40:48Z] [INFO] === Pipeline A COMPLETE | account=acct_004 ===
+[2026-03-04T16:40:48Z] [INFO] === Pipeline A START | account=acct_005 | file=C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\_tmp\acct_005_demo_temp.txt ===
+[2026-03-04T16:40:48Z] [INFO] Loaded transcript: 1930 chars
+[2026-03-04T16:40:48Z] [INFO] Memo extracted for: acct_005
+[2026-03-04T16:40:48Z] [INFO] Agent spec built: acct_005 - Clara Receptionist
+[2026-03-04T16:40:48Z] [INFO] Saved: C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\accounts\acct_005\v1\memo.json
+[2026-03-04T16:40:48Z] [INFO] Saved: C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\accounts\acct_005\v1\agent_spec.json
+[2026-03-04T16:40:48Z] [INFO] Task created: TASK-0005 for acct_005
+[2026-03-04T16:40:49Z] [INFO] === Pipeline A COMPLETE | account=acct_005 ===
+[2026-03-04T16:40:49Z] [INFO] === Pipeline B START | account=acct_001 | file=C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\_tmp\acct_001_onboarding_temp.txt ===
+[2026-03-04T16:40:49Z] [INFO] Loaded onboarding transcript: 786 chars
+[2026-03-04T16:40:49Z] [INFO] Loaded v1 memo for: acct_001
+[2026-03-04T16:40:49Z] [INFO] V2 memo generated. Changes detected: 2
+[2026-03-04T16:40:49Z] [INFO] V2 agent spec built
+[2026-03-04T16:40:49Z] [INFO] Changelog generated: 5 changes
+[2026-03-04T16:40:49Z] [INFO] All v2 outputs saved to: C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\accounts\acct_001\v2
+[2026-03-04T16:40:49Z] [INFO] === Pipeline B COMPLETE | account=acct_001 ===
+[2026-03-04T16:40:50Z] [INFO] === Pipeline B START | account=acct_002 | file=C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\_tmp\acct_002_onboarding_temp.txt ===
+[2026-03-04T16:40:50Z] [INFO] Loaded onboarding transcript: 795 chars
+[2026-03-04T16:40:50Z] [INFO] Loaded v1 memo for: acct_002
+[2026-03-04T16:40:50Z] [INFO] V2 memo generated. Changes detected: 2
+[2026-03-04T16:40:50Z] [INFO] V2 agent spec built
+[2026-03-04T16:40:50Z] [INFO] Changelog generated: 5 changes
+[2026-03-04T16:40:50Z] [INFO] All v2 outputs saved to: C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\accounts\acct_002\v2
+[2026-03-04T16:40:50Z] [INFO] === Pipeline B COMPLETE | account=acct_002 ===
+[2026-03-04T16:40:50Z] [INFO] === Pipeline B START | account=acct_003 | file=C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\_tmp\acct_003_onboarding_temp.txt ===
+[2026-03-04T16:40:50Z] [INFO] Loaded onboarding transcript: 754 chars
+[2026-03-04T16:40:50Z] [INFO] Loaded v1 memo for: acct_003
+[2026-03-04T16:40:50Z] [INFO] V2 memo generated. Changes detected: 2
+[2026-03-04T16:40:50Z] [INFO] V2 agent spec built
+[2026-03-04T16:40:50Z] [INFO] Changelog generated: 5 changes
+[2026-03-04T16:40:50Z] [INFO] All v2 outputs saved to: C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\accounts\acct_003\v2
+[2026-03-04T16:40:50Z] [INFO] === Pipeline B COMPLETE | account=acct_003 ===
+[2026-03-04T16:40:51Z] [INFO] === Pipeline B START | account=acct_004 | file=C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\_tmp\acct_004_onboarding_temp.txt ===
+[2026-03-04T16:40:51Z] [INFO] Loaded onboarding transcript: 802 chars
+[2026-03-04T16:40:51Z] [INFO] Loaded v1 memo for: acct_004
+[2026-03-04T16:40:51Z] [INFO] V2 memo generated. Changes detected: 3
+[2026-03-04T16:40:51Z] [INFO] V2 agent spec built
+[2026-03-04T16:40:51Z] [INFO] Changelog generated: 6 changes
+[2026-03-04T16:40:51Z] [INFO] All v2 outputs saved to: C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\accounts\acct_004\v2
+[2026-03-04T16:40:51Z] [INFO] === Pipeline B COMPLETE | account=acct_004 ===
+[2026-03-04T16:40:51Z] [INFO] === Pipeline B START | account=acct_005 | file=C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\_tmp\acct_005_onboarding_temp.txt ===
+[2026-03-04T16:40:51Z] [INFO] Loaded onboarding transcript: 770 chars
+[2026-03-04T16:40:51Z] [INFO] Loaded v1 memo for: acct_005
+[2026-03-04T16:40:51Z] [INFO] V2 memo generated. Changes detected: 3
+[2026-03-04T16:40:51Z] [INFO] V2 agent spec built
+[2026-03-04T16:40:51Z] [INFO] Changelog generated: 6 changes
+[2026-03-04T16:40:51Z] [INFO] All v2 outputs saved to: C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\accounts\acct_005\v2
+[2026-03-04T16:40:51Z] [INFO] === Pipeline B COMPLETE | account=acct_005 ===

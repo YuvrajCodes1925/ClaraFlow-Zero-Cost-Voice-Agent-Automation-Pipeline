@@ -1,0 +1,11 @@
+Account: acct_002
+
+AGENT: Hi again! Tell me what's changing with Flow Right Plumbing.
+CLIENT: Hey! We have a few updates. First, our number for Rick Sanchez changed to 303-555-0202.
+AGENT: Updated. What else?
+CLIENT: We have a new service line: general contracting. We're also expanding emergencies: now we add no water at all as an emergency.
+AGENT: Great. Did your address or hours change?
+CLIENT: Yes, our new address is 101 Faucet Way, Denver, CO 80203. Also for our hours, we add Saturday 9 AM to 1 PM.
+AGENT: Got it. Any software updates?
+CLIENT: Yes, we switched from ServiceTrade to Housecall Pro. Same rule applies: do not create jobs in Housecall Pro directly.
+AGENT: And I'll note your new routing rule: commercial clients route differently now after hours. I've got this all logged!

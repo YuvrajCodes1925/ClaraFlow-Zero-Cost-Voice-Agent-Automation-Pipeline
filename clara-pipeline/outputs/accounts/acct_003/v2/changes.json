@@ -1,0 +1,115 @@
+{
+  "account_id": "acct_003",
+  "company_name": "acct_003",
+  "changelog_date": "2026-03-04T16:40:50.639156Z",
+  "from_version": "v1",
+  "to_version": "v2",
+  "summary": {
+    "total_changes": 5,
+    "added": 0,
+    "updated": 5,
+    "removed": 0
+  },
+  "changes": [
+    {
+      "field": "emergency_routing_rules.contacts[0].phone",
+      "action": "update",
+      "old_value": "800-555-1000",
+      "new_value": "206-555-0302",
+      "reason": "New on-call number provided in onboarding"
+    },
+    {
+      "field": "integration_constraints",
+      "action": "update",
+      "old_value": [
+        "Do not create jobs/tickets in Housecall Pro"
+      ],
+      "new_value": [
+        "Do not create jobs/tickets in Jobber"
+      ],
+      "reason": "Software switched from Housecall Pro to Jobber"
+    },
+    {
+      "field": "emergency_routing_rules.contacts",
+      "action": "add",
+      "old_value": null,
+      "new_value": {
+        "name": "Contact 1",
+        "order": 1,
+        "phone": "206-555-0302"
+      },
+      "reason": "Item added to list"
+    },
+    {
+      "field": "emergency_routing_rules.contacts",
+      "action": "remove",
+      "old_value": {
+        "name": "Contact 1",
+        "order": 1,
+        "phone": "800-555-1000"
+      },
+      "new_value": null,
+      "reason": "Item removed from list"
+    },
+    {
+      "field": "source_type",
+      "action": "update",
+      "old_value": "demo_call",
+      "new_value": "onboarding_call",
+      "reason": "Value changed"
+    }
+  ],
+  "categorized": {
+    "added": [],
+    "updated": [
+      {
+        "field": "emergency_routing_rules.contacts[0].phone",
+        "action": "update",
+        "old_value": "800-555-1000",
+        "new_value": "206-555-0302",
+        "reason": "New on-call number provided in onboarding"
+      },
+      {
+        "field": "integration_constraints",
+        "action": "update",
+        "old_value": [
+          "Do not create jobs/tickets in Housecall Pro"
+        ],
+        "new_value": [
+          "Do not create jobs/tickets in Jobber"
+        ],
+        "reason": "Software switched from Housecall Pro to Jobber"
+      },
+      {
+        "field": "emergency_routing_rules.contacts",
+        "action": "add",
+        "old_value": null,
+        "new_value": {
+          "name": "Contact 1",
+          "order": 1,
+          "phone": "206-555-0302"
+        },
+        "reason": "Item added to list"
+      },
+      {
+        "field": "emergency_routing_rules.contacts",
+        "action": "remove",
+        "old_value": {
+          "name": "Contact 1",
+          "order": 1,
+          "phone": "800-555-1000"
+        },
+        "new_value": null,
+        "reason": "Item removed from list"
+      },
+      {
+        "field": "source_type",
+        "action": "update",
+        "old_value": "demo_call",
+        "new_value": "onboarding_call",
+        "reason": "Value changed"
+      }
+    ],
+    "removed": []
+  }
+}

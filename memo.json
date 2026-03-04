@@ -1,0 +1,52 @@
+{
+  "company_name": "Pinnacle HVAC Services",
+  "business_hours": {
+    "days": "Monday-Friday",
+    "start": "7 AM",
+    "end": "6 PM",
+    "timezone": "Central Time (CT)",
+    "saturday": null,
+    "sunday": "Closed"
+  },
+  "office_address": "4820 Burnet Road, Suite 110, Austin, TX 78756.",
+  "services_supported": [
+    "Hvac",
+    "Maintenance",
+    "Installation",
+    "Repair"
+  ],
+  "emergency_definition": [
+    "No Heat",
+    "No Ac",
+    "Temperature"
+  ],
+  "emergency_routing_rules": {
+    "contacts": [
+      {
+        "name": "Jake Rivera",
+        "phone": "512-555-0192",
+        "order": 1
+      }
+    ],
+    "ring_timeout_seconds": 30,
+    "fallback_action": "Leave voicemail and inform caller of callback timeframe"
+  },
+  "non_emergency_routing_rules": "Take name and phone number; follow up next business day",
+  "call_transfer_rules": {
+    "office_hours_transfer_to": "512-555-0192",
+    "ring_timeout": "4 rings",
+    "if_no_answer": "Take message with name and callback number"
+  },
+  "integration_constraints": [
+    "Do not create jobs/tickets in ServiceTitan"
+  ],
+  "after_hours_flow_summary": "Greet caller, determine if emergency, collect name/phone, attempt transfer or take message",
+  "office_hours_flow_summary": "Greet caller, collect name and purpose, transfer to office line",
+  "questions_or_unknowns": [],
+  "notes": "Extracted via rule-based parser \u2014 verify with client",
+  "account_id": "acct_001",
+  "version": "v1",
+  "created_at": "2026-03-03T07:03:50.006837Z",
+  "updated_at": "2026-03-03T07:03:50.006847Z",
+  "source_type": "demo_call"
+}
