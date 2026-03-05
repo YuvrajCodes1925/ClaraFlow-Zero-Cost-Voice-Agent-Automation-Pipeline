@@ -78,3 +78,35 @@
 [2026-03-04T16:40:51Z] [INFO] Changelog generated: 6 changes
 [2026-03-04T16:40:51Z] [INFO] All v2 outputs saved to: C:\Users\Yuvraj Singh\Downloads\files\clara-pipeline\outputs\accounts\acct_005\v2
 [2026-03-04T16:40:51Z] [INFO] === Pipeline B COMPLETE | account=acct_005 ===
+[2026-03-05T01:50:14Z] [INFO] === Pipeline A START | account=acct_001 | file=data/demo_calls/acct_001_demo.txt ===
+[2026-03-05T01:50:14Z] [INFO] Loaded transcript: 1874 chars
+[2026-03-05T01:50:14Z] [INFO] Memo extracted for: acct_001
+[2026-03-05T01:50:14Z] [INFO] Agent spec built: acct_001 - Clara Receptionist
+[2026-03-05T01:50:14Z] [INFO] Saved: C:\Users\Yuvraj Singh\Downloads\ClaraFlow — Zero-Cost Voice Agent Automation Pipeline\clara-pipeline\outputs\accounts\acct_001\v1\memo.json
+[2026-03-05T01:50:14Z] [INFO] Saved: C:\Users\Yuvraj Singh\Downloads\ClaraFlow — Zero-Cost Voice Agent Automation Pipeline\clara-pipeline\outputs\accounts\acct_001\v1\agent_spec.json
+[2026-03-05T01:50:14Z] [INFO] Task created: TASK-0006 for acct_001
+[2026-03-05T01:50:15Z] [INFO] === Pipeline A COMPLETE | account=acct_001 ===
+[2026-03-05T01:50:51Z] [INFO] === Pipeline B START | account=acct_001 | file=data/onboarding_calls/acct_001_onboarding.txt ===
+[2026-03-05T01:50:51Z] [INFO] Loaded onboarding transcript: 786 chars
+[2026-03-05T01:50:51Z] [INFO] Loaded v1 memo for: acct_001
+[2026-03-05T01:50:51Z] [INFO] V2 memo generated. Changes detected: 2
+[2026-03-05T01:50:51Z] [INFO] V2 agent spec built
+[2026-03-05T01:50:51Z] [INFO] Changelog generated: 5 changes
+[2026-03-05T01:50:51Z] [INFO] All v2 outputs saved to: C:\Users\Yuvraj Singh\Downloads\ClaraFlow — Zero-Cost Voice Agent Automation Pipeline\clara-pipeline\outputs\accounts\acct_001\v2
+[2026-03-05T01:50:51Z] [INFO] === Pipeline B COMPLETE | account=acct_001 ===
+[2026-03-05T03:42:03Z] [INFO] === Pipeline A START | account=acct_001 | file=data/demo_calls/acct_001_demo.txt ===
+[2026-03-05T03:42:03Z] [INFO] Loaded transcript: 1874 chars
+[2026-03-05T03:42:03Z] [INFO] Memo extracted for: acct_001
+[2026-03-05T03:42:03Z] [INFO] Agent spec built: acct_001 - Clara Receptionist
+[2026-03-05T03:42:03Z] [INFO] Saved: C:\Users\Yuvraj Singh\Downloads\ClaraFlow — Zero-Cost Voice Agent Automation Pipeline\clara-pipeline\outputs\accounts\acct_001\v1\memo.json
+[2026-03-05T03:42:03Z] [INFO] Saved: C:\Users\Yuvraj Singh\Downloads\ClaraFlow — Zero-Cost Voice Agent Automation Pipeline\clara-pipeline\outputs\accounts\acct_001\v1\agent_spec.json
+[2026-03-05T03:42:03Z] [INFO] Task created: TASK-0007 for acct_001
+[2026-03-05T03:42:03Z] [INFO] === Pipeline A COMPLETE | account=acct_001 ===
+[2026-03-05T03:56:15Z] [INFO] === Pipeline A START | account=acct_001 | file=data/demo_calls/acct_001_demo.txt ===
+[2026-03-05T03:56:15Z] [INFO] Loaded transcript: 1874 chars
+[2026-03-05T03:56:15Z] [INFO] Memo extracted for: acct_001
+[2026-03-05T03:56:15Z] [INFO] Agent spec built: acct_001 - Clara Receptionist
+[2026-03-05T03:56:15Z] [INFO] Saved: C:\Users\Yuvraj Singh\Downloads\ClaraFlow — Zero-Cost Voice Agent Automation Pipeline\clara-pipeline\outputs\accounts\acct_001\v1\memo.json
+[2026-03-05T03:56:15Z] [INFO] Saved: C:\Users\Yuvraj Singh\Downloads\ClaraFlow — Zero-Cost Voice Agent Automation Pipeline\clara-pipeline\outputs\accounts\acct_001\v1\agent_spec.json
+[2026-03-05T03:56:15Z] [INFO] Task created: TASK-0008 for acct_001
+[2026-03-05T03:56:15Z] [INFO] === Pipeline A COMPLETE | account=acct_001 ===

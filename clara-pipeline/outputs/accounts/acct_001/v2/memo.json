@@ -51,7 +51,7 @@
   "notes": "Extracted via rule-based parser \u2014 verify with client",
   "account_id": "acct_001",
   "version": "v2",
-  "created_at": "2026-03-04T16:40:46.697996Z",
-  "updated_at": "2026-03-04T16:40:49.533235Z",
+  "created_at": "2026-03-05T01:50:14.973578Z",
+  "updated_at": "2026-03-05T01:50:51.346362Z",
   "source_type": "onboarding_call"
 }
